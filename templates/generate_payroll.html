@@ -1,1 +1,46 @@
+{% extends 'base.html' %}
 
+{% block title %}Generate Payroll – Shelleng Payroll System{% endblock %}
+
+{% block content %}
+  <h2>Generate Payroll</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST" class="form">
+    <div class="form-group">
+      <label for="staff_id">Select Staff:</label>
+      <select name="staff_id" id="staff_id" class="form-control" required>
+        <option value="">-- Choose --</option>
+        {% for s in staff %}
+          <option value="{{ s.id }}">{{ s.full_name }} ({{ s.position.title }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Salary Amount (₦):</label>
+      <input type="number" name="amount" id="amount" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label for="month">Month:</label>
+      <select name="month" id="month" class="form-control" required>
+        <option value="">-- Select Month --</option>
+        {% for m in ['January', 'February', 'March', 'April', 'May', 'June', 
+                     'July', 'August', 'September', 'October', 'November', 'December'] %}
+          <option value="{{ m }}">{{ m }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Generate Payroll</button>
+    <a href="{{ url_for('list_staff') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
