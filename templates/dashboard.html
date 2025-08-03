@@ -1,1 +1,27 @@
+{% extends 'base.html' %}
 
+{% block title %}Dashboard – Shelleng Payroll System{% endblock %}
+
+{% block content %}
+  <h2>Welcome to Shelleng Payroll System</h2>
+
+  <div class="dashboard-cards">
+    <a href="{{ url_for('add_employee') }}" class="dashboard-card">
+      <h3>Add Employee</h3>
+      <p>Register new staff into the system.</p>
+    </a>
+
+    <a href="{{ url_for('list_staff') }}" class="dashboard-card">
+      <h3>View Staff</h3>
+      <p>Manage and view all registered staff.</p>
+    </a>
+
+    <a href="{{ url_for('generate_payroll') }}" class="dashboard-card">
+      <h3>Generate Payroll</h3>
+      <p>Initiate and record monthly staff salaries.</p>
+    </a>
+  </div>
+
+  <br>
+  <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+{% endblock %}
