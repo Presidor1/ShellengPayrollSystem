@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Shelleng Payroll System{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Shelleng Traditional Council Payroll System</h1>
+    <nav>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a> |
+      <a href="{{ url_for('list_staff') }}">Staff</a> |
+      <a href="{{ url_for('generate_payroll') }}">Generate Payroll</a> |
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    <hr>
+  </header>
 
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <footer>
+    <hr>
+    <p style="text-align: center; font-size: small;">
+      &copy; {{ current_year }} Shelleng Traditional Council – Developed by <strong>President Technology</strong>.
+    </p>
+  </footer>
+</body>
+</html>
