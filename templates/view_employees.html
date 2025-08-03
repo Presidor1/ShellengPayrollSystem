@@ -1,1 +1,53 @@
+{% extends 'base.html' %}
 
+{% block title %}Employee List – Shelleng Payroll System{% endblock %}
+
+{% block content %}
+  <h2>Registered Employees</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% if staff %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Full Name</th>
+          <th>Position</th>
+          <th>Department</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Date Employed</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in staff %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ s.full_name }}</td>
+          <td>{{ s.position.title }}</td>
+          <td>{{ s.position.department.name }}</td>
+          <td>{{ s.phone or 'N/A' }}</td>
+          <td>{{ s.email or 'N/A' }}</td>
+          <td>{{ s.date_employed.strftime('%Y-%m-%d') }}</td>
+          <td>{{ 'Active' if s.is_active else 'Inactive' }}</td>
+          <td>
+            <a href="{{ url_for('view_staff_payroll', staff_id=s.id) }}" class="btn btn-sm btn-primary">Payroll</a>
+            <!-- Additional actions like deactivate, edit can go here -->
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No employees found. <a href="{{ url_for('add_employee') }}">Add an employee</a>.</p>
+  {% endif %}
+{% endblock %}
