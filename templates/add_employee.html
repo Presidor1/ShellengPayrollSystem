@@ -1,1 +1,53 @@
+{% extends 'base.html' %}
 
+{% block title %}Add Employee – Shelleng Payroll System{% endblock %}
+
+{% block content %}
+  <h2>Add New Employee</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="{{ url_for('add_employee') }}">
+    <div class="form-group">
+      <label for="full_name">Full Name:</label>
+      <input type="text" name="full_name" id="full_name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email (optional):</label>
+      <input type="email" name="email" id="email">
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number (optional):</label>
+      <input type="text" name="phone" id="phone">
+    </div>
+
+    <div class="form-group">
+      <label for="department">Department:</label>
+      <select name="department" id="department" required>
+        {% for dept in departments %}
+          <option value="{{ dept.id }}">{{ dept.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="position">Position:</label>
+      <select name="position" id="position" required>
+        {% for pos in positions %}
+          <option value="{{ pos.id }}">{{ pos.title }} (₦{{ "%.2f"|format(pos.base_salary) }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Employee</button>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
