@@ -1,1 +1,40 @@
+> ✅ Update the GitHub repo link when it's live.
 
+---
+
+### ✅ Step 3: `fly.toml`
+
+This file tells Fly.io how to run your Flask app.
+
+#### 📄 `fly.toml` (Ready-to-Paste)
+
+```toml
+app = "shelleng-payroll"
+
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[build]
+  image = "python:3.11"
+
+[env]
+  PORT = "8080"
+  SECRET_KEY = "supersecretkey"
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "10s"
+    restart_limit = 0
